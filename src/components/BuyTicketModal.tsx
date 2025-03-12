@@ -3,7 +3,7 @@
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import { useState } from 'react';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, doc, getDoc } from 'firebase/firestore';
 
 import { sendTelegramMessage } from '@/lib/telegram';
 
@@ -20,7 +20,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ lottery, onClose }) => 
   const handleApprove = async (orderId: string) => {
     setIsProcessing(true);
     try {
-      const userRef = doc(db, 'users', currentUser.uid);
+      const userRef = doc(db, 'users', "currentUser.uid");
       const userSnap = await getDoc(userRef);
       const userData = userSnap.data();
   
@@ -30,7 +30,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ lottery, onClose }) => 
       const ticketRef = await addDoc(collection(db, 'tickets'), {
         lotteryId: lottery.id,
         orderId,
-        userId: currentUser.uid,
+        userId: "currentUser.uid",
         purchasedAt: Timestamp.now(),
         status: 'paid'
       });
@@ -61,7 +61,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ lottery, onClose }) => 
         <p>Price: ${lottery.price}</p>
 
         <div className="mt-4">
-          <PayPalButtons
+          {/* <PayPalButtons
             createOrder={(data, actions) => {
               return actions.order.create({
                 purchase_units: [
@@ -84,7 +84,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ lottery, onClose }) => 
               console.error('PayPal Error:', err);
               alert('Payment Error!');
             }}
-          />
+          /> */}
         </div>
 
         <button

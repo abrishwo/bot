@@ -1,4 +1,4 @@
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+// import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import {ReduxProvider} from '@/store/ReduxProvider';
 import '../styles/globals.css';
 

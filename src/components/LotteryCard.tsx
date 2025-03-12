@@ -22,19 +22,32 @@ const LotteryCard: React.FC<LotteryCardProps> = ({
       onClick={onClick}
       className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:scale-[1.02] transition-all"
     >
-      <Image
+     {
+        imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={title}
+            width={200}
+            height={200}
+            className="object-cover"
+          />
+        )
+ 
+     }
+
+{/* <Image
         src={imageUrl}
         alt={title}
-        width={500}
-        height={300}
+        width={300}
+        height={200}
         className="w-full h-48 object-cover"
-      />
+      /> */}
       <div className="p-4">
         <h3 className="text-lg font-bold">{title}</h3>
         <p className="text-gray-600 text-sm">{description}</p>
         <div className="mt-2 flex justify-between items-center">
-          <span className="text-green-600 font-semibold">${price} / Ticket</span>
-          <span className="text-xs text-gray-400">{new Date(drawDate).toLocaleDateString()}</span>
+          <p className="text-green-600 font-semibold">${price} / Ticket</p>
+          <p className="text-xs text-gray-400">{new Date(drawDate).toLocaleDateString()}</p>
         </div>
       </div>
     </div>

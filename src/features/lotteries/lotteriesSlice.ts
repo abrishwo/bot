@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchActiveLotteries } from './lotteriesAPI';
 
-// Define your Lottery type
 export interface Lottery {
   id: string;
   name: string;
   prize: string;
   ticketPrice: number;
+  imageUrl: string;
   active: boolean;
   drawDate: string;
 }
@@ -23,29 +23,27 @@ const initialState: LotteriesState = {
   error: null,
 };
 
-// ✅ createAsyncThunk
 export const getLotteries = createAsyncThunk<
-  Lottery[], // return type
-  void,      // argument
-  { rejectValue: string } // thunkAPI types
+  Lottery[], // The type of the successful response
+  void,      // Argument passed to the thunk (none in this case)
+  { rejectValue: string } // Error type
 >(
   'lotteries/fetchActiveLotteries',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetchActiveLotteries(); // ✅ returns Lottery[]
+      const response = await fetchActiveLotteries(); // This should return Lottery[]
       return response;
     } catch (error: unknown) {
-      let message = 'Unknown error';
+      let message = 'Unknown error occurred';
       if (error instanceof Error) {
         message = error.message;
       }
-      // ✅ rejectWithValue returns early
-    //   return rejectWithValue(message);
-
-    return "test data for rejectWithValue function"
+      // Return the error message using rejectWithValue
+      return rejectWithValue(message); // Ensure the error is a string
     }
   }
 );
+
 
 const lotteriesSlice = createSlice({
   name: 'lotteries',

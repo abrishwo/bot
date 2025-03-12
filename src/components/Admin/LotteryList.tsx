@@ -19,7 +19,7 @@ const handleDrawWinner = async (lotteryId: string) => {
   };
   
   // In your component rendering:
-  <button onClick={() => handleDrawWinner(lottery.id)}>
-    🎲 Draw Winner
-  </button>
+  // <button onClick={() => handleDrawWinner(lottery.id)}>
+  //   🎲 Draw Winner
+  // </button>
   

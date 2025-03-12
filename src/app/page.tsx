@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { getLotteries } from '@/features/lotteries/lotteriesSlice';
+import { Lottery, getLotteries } from '@/features/lotteries/lotteriesSlice';
 import LotteryCard from '@/components/LotteryCard';
 import BuyTicketModal from '@/components/BuyTicketModal';
 
@@ -10,13 +10,13 @@ export default function HomePage() {
   const dispatch = useAppDispatch();
   const { items: lotteries, loading, error } = useAppSelector((state) => state.lotteries);
 
-  const [selectedLottery, setSelectedLottery] = useState(null);
+  const [selectedLottery, setSelectedLottery] = useState<Lottery | null>(null);
 
   useEffect(() => {
     dispatch(getLotteries());
   }, [dispatch]);
 
-  const handleCardClick = (lottery: any) => {
+  const handleCardClick = (lottery: Lottery) => {
     setSelectedLottery(lottery);
   };
 
@@ -31,15 +31,16 @@ export default function HomePage() {
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error as string}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {lotteries.map((lottery: any) => (
+      <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
+        {/* {JSON.stringify(lotteries)} */}
+        {lotteries.map((lottery) => (
           <LotteryCard
             key={lottery.id}
-            title={lottery.title}
-            description={lottery.description}
+            title={lottery.name}
+            description={lottery.prize}
             imageUrl={lottery.imageUrl}
-            price={lottery.price}
-            drawDate={lottery.drawDate.toDate?.() || lottery.drawDate}
+            price={lottery.ticketPrice}
+            drawDate={lottery.drawDate || lottery.drawDate}
             onClick={() => handleCardClick(lottery)}
           />
         ))}
